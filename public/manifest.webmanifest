@@ -1,0 +1,19 @@
+{
+  "name": "פתרונות של ערים אחרות",
+  "short_name": "ערים אחרות",
+  "description": "מאגר פתרונות שירות עירוני מערים אחרות, עם מקור, תוצאה ומדד התאמה לאשדוד.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "he",
+  "background_color": "#FFFFFF",
+  "theme_color": "#1F4E79",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
