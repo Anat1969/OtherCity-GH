@@ -184,4 +184,27 @@ textarea.field { resize: vertical; min-height: 84px; line-height: 1.6; }
 .picker.vertical > span > .pick:first-child { flex: 1; }
 
 .tab { text-decoration: none; }
-@media (max-width: 720px) { .score-col .panel-b { max-height: 40vh; } .bank-list { max-height: 38vh; } }
+
+/* מאגר בנייד: לשוניות במקום שלושה טורים */
+.mtabs { display: none; }
+@media (max-width: 720px) {
+  .app-shell.shell-fixed { height: 100dvh; overflow: hidden; }
+  .bank { grid-template-rows: auto minmax(0, 1fr); min-height: 0; }
+  .mtabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); }
+  .mtabs .pick { flex: 1; justify-content: center; padding: 8px 4px; font-size: 14px; }
+  .bank > .panel { display: none; min-height: 0; }
+  .bank[data-view="list"] > .bank-list, .bank[data-view="detail"] > .detail, .bank[data-view="score"] > .score-col { display: flex; }
+  .bank-list { max-height: none; }
+  .score-col .panel-b { max-height: none; }
+  .detail { display: block; overflow: auto; }
+  .bank[data-view="detail"] > .detail { display: block; }
+  .bank .score-col { grid-column: auto; }
+  /* דף הבית בנייד: מפה ותקציר, השאר בגלילה קצרה */
+  .home-map { min-height: 46vh; }
+  .home .tones .tone p { font-size: 12.5px; }
+  .home .tones { grid-template-columns: minmax(0,1fr); gap: 6px; }
+  .home .tone { padding: 8px 12px; }
+  .home .tone h4 { margin-bottom: 2px; }
+  .hero h1 { font-size: 24px; }
+  .home .inspo { display: none; }
+}

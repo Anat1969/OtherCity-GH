@@ -120,6 +120,16 @@ const noHScroll = (p) => p.evaluate(() => document.documentElement.scrollWidth <
       await p.goto(BASE + h); await p.waitForTimeout(500);
       ok(await noHScroll(p), `mobile ${h || 'home'}: no horizontal scroll`);
     }
+    await p.goto(BASE + '#/bank?id=nyc-311'); await p.waitForSelector('.mtabs');
+    ok(await p.evaluate(() => document.documentElement.scrollHeight / innerHeight <= 1.01), 'mobile bank fits the screen');
+    await p.locator('.mtabs button', { hasText: 'רשימה' }).click();
+    ok(await p.locator('.bank-list').isVisible() && !(await p.locator('.detail').isVisible()), 'mobile tab shows the list only');
+    await p.locator('.row').nth(2).click();
+    ok(await p.locator('.detail').isVisible(), 'choosing a row opens the solution tab');
+    await p.locator('.mtabs button', { hasText: 'מדד' }).click();
+    ok(await p.locator('[data-testid="score"]').isVisible(), 'mobile score tab');
+    await p.goto(BASE); await p.waitForTimeout(400);
+    ok(await p.evaluate(() => document.documentElement.scrollHeight / innerHeight <= 1.5), 'mobile home within 1.5 screens');
     const anim = await p.evaluate(() => getComputedStyle(document.querySelector('.article') || document.body).animationName);
     ok(anim === 'none', 'reduced motion disables animation');
     await ctx.close();

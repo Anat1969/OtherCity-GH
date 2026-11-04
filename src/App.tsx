@@ -26,7 +26,7 @@ export default function App() {
   }, [page]);
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell${page === 'bank' ? ' shell-fixed' : ''}`}>
       <TopBar page={page} q={q} onQ={onQ} boardCount={items.length} />
       {page === 'home' && <Home />}
       {page === 'bank' && <Bank params={params} q={q} />}
