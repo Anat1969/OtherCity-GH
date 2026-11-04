@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import CatPicker from '../components/CatPicker';
 import Rich from '../components/Rich';
 import Bridge from '../components/Bridge';
@@ -23,6 +23,8 @@ export default function Bank({ params, q }: { params: Record<string, string>; q:
   const idx = s ? list.findIndex((x) => x.s.id === s.id) : -1;
   const set = (patch: Record<string, string | undefined>) => go('bank', { p: params.p, q: q || undefined, id: params.id, ...patch });
   const detailRef = useRef<HTMLElement>(null);
+  // בנייד: לשונית אחת בכל פעם (רשימה, פתרון, מדד), כדי שהדף יהיה בגובה המסך.
+  const [view, setView] = useState<'list' | 'detail' | 'score'>(params.id ? 'detail' : 'list');
   useEffect(() => { detailRef.current?.scrollTo({ top: 0 }); }, [s?.id]);
 
   useEffect(() => {
@@ -42,7 +44,12 @@ export default function Bank({ params, q }: { params: Record<string, string>; q:
   const app = s.app ? APPS[s.app] : null;
 
   return (
-    <main className="bank">
+    <main className="bank" data-view={view}>
+      <div className="mtabs" role="tablist" aria-label="תצוגה בנייד">
+        {([['list', 'רשימה'], ['detail', 'הפתרון'], ['score', `מדד ${score(s).total}`]] as const).map(([k, he]) => (
+          <button key={k} role="tab" className="pick" aria-pressed={view === k} aria-selected={view === k} onClick={() => setView(k)}>{he}</button>
+        ))}
+      </div>
       <section className="panel bank-list" aria-label="רשימת הפתרונות">
         <div className="panel-h">
           <div className="kicker">בחרו בעיה של אשדוד</div>
@@ -51,7 +58,7 @@ export default function Bank({ params, q }: { params: Record<string, string>; q:
         </div>
         <div className="scroll-in" style={{ flex: 1 }} role="list">
           {list.map(({ s: x, sc, hit }) => (
-            <button key={x.id} role="listitem" className={`row${hit ? '' : ' dim'}`} aria-current={x.id === s.id} onClick={() => set({ id: x.id })}>
+            <button key={x.id} role="listitem" className={`row${hit ? '' : ' dim'}`} aria-current={x.id === s.id} onClick={() => { set({ id: x.id }); setView('detail'); }}>
               <i className="bar" style={{ background: catOf(x.cat).color }} />
               <span style={{ minWidth: 0 }}>
                 <span className="t" style={{ display: 'block' }}>{x.name.he}</span>
